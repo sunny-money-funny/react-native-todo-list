@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "./styles";
 
 export default function HomeScreen() {
@@ -20,7 +21,7 @@ export default function HomeScreen() {
     setWorking(true); // 'work' 모드로 변경
   };
 
-  const travel = () => {
+  const study = () => {
     setWorking(false); // 'study' 모드로 변경
   };
 
@@ -50,7 +51,7 @@ export default function HomeScreen() {
             WORK
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={travel}>
+        <TouchableOpacity onPress={study}>
           <Text
             style={[
               styles.categoryButton,
@@ -65,7 +66,7 @@ export default function HomeScreen() {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder={working ? "Add a work todo" : "Add a study todo"}
+          placeholder={working ? "Add a work todo" : "Add a study to do"}
           value={todo}
           onChangeText={setTodo}
         />
