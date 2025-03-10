@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -16,6 +16,35 @@ export default function HomeScreen() {
     work: [],
     study: [],
   });
+
+  // 앱이 시작될 때 AsyncStorage에서 데이터를 불러옴
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        const savedTodos = await AsyncStorage.getItem("todos");
+        if (savedTodos) {
+          setTodos(JSON.parse(savedTodos)); // 불러온 데이터를 객체로 변환
+        }
+      } catch (error) {
+        console.error("Failed to load todos from AsyncStorage", error);
+      }
+    };
+
+    loadTodos();
+  }, []);
+
+  // todos 상태가 변경될 때마다 AsyncStorage에 저장
+  useEffect(() => {
+    const saveTodos = async () => {
+      try {
+        await AsyncStorage.setItem("todos", JSON.stringify(todos)); // 데이터를 문자열로 저장
+      } catch (error) {
+        console.error("Failed to save todos to AsyncStorage", error);
+      }
+    };
+
+    saveTodos();
+  }, [todos]); // todos가 변경될 때마다 실행
 
   const work = () => {
     setWorking(true); // 'work' 모드로 변경
